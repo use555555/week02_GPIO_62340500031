@@ -49,6 +49,10 @@ uint16_t ButtonMatrixState = 0;
 //Button time stamp
 uint32_t ButtonMatrixTimestamp = 0;
 
+//Data
+int Data[11] = {0,0,0,0,0,0,0,0,0,0,0};
+int DataCurser = 0;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -95,18 +99,121 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-
+  uint16_t StateCheck[2];
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  ButtonMatrixUpdate();
+	  StateCheck[0] = ButtonMatrixState;
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  ButtonMatrixUpdate();
-  }
+	  if(StateCheck[0] != 0x0 && StateCheck[1] == 0x0)
+	  {
+		  switch(ButtonMatrixState)
+		  {
+			  case 1:
+				  if(DataCurser < 11)
+				  {
+					  Data[DataCurser] = 7;
+				  }
+				  break;
+			  case 2:
+				  if(DataCurser < 11)
+				  {
+					  Data[DataCurser] = 8;
+				  }
+				  break;
+			  case 4:
+				  if(DataCurser < 11)
+				  {
+					  Data[DataCurser] = 9;
+				  }
+				  break;
+			  case 8:
+				  DataCurser = 0;
+				  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+				  int reset = 0;
+				  for(reset = 0; reset < 11 ; reset++)
+				  {
+					  Data[reset] = 0;
+				  }
+				  break;
+			  case 16:
+				  if(DataCurser < 11)
+				  {
+					  Data[DataCurser] = 4;
+				  }
+				  break;
+			  case 32:
+				  if(DataCurser < 11)
+				  {
+					  Data[DataCurser] = 5;
+				  }
+				  break;
+			  case 64:
+				  if(DataCurser < 11)
+				  {
+					  Data[DataCurser] = 6;
+				  }
+				  break;
+			  case 128:
+				  if(DataCurser <= 11 && DataCurser > 0)
+				  {
+					  Data[DataCurser - 1] = 0;
+				  }
+				  if(DataCurser > 0)
+				  {
+					  DataCurser -= 1;
+				  }
+				  break;
+			  case 256:
+				  if(DataCurser < 11)
+				  {
+					  Data[DataCurser] = 1;
+				  }
+				  break;
+			  case 512:
+				  if(DataCurser < 11)
+				  {
+					  Data[DataCurser] = 2;
+				  }
+				  break;
+			  case 1024:
+				  if(DataCurser < 11)
+				  {
+					  Data[DataCurser] = 3;
+				  }
+				  break;
+			  case 4096:
+				  if(DataCurser < 11)
+				  {
+					  Data[DataCurser] = 0;
+				  }
+				  break;
+			  case 32768:
+				  if(Data[0] == 6 && Data[1] == 2 && Data[2] == 3
+					&& Data[3] == 4 && Data[4] == 0 && Data[5] == 5
+					&& Data[6] == 0 && Data[7] == 0 && Data[8] == 0
+					&& Data[9] == 3 && Data[10] == 1 && DataCurser == 11)
+				  {
+				  	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+				  }
+				  break;
+			  default:
+				  DataCurser -=1;
+				  break;
+		  }
+		  if(ButtonMatrixState != 8 && ButtonMatrixState != 128 && ButtonMatrixState != 32768)
+		  {
+			  DataCurser +=1;
+		  }
+	    }
+	    StateCheck[1] = StateCheck[0];
+    }
   /* USER CODE END 3 */
 }
 
