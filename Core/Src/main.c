@@ -111,7 +111,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  if(StateCheck[0] != 0x0 && StateCheck[1] == 0x0)
+	  if(StateCheck[0] != 0 && StateCheck[1] == 0)
 	  {
 		  switch(ButtonMatrixState)
 		  {
@@ -120,18 +120,21 @@ int main(void)
 				  {
 					  Data[DataCurser] = 7;
 				  }
+				  DataCurser +=1;
 				  break;
 			  case 2:
 				  if(DataCurser < 11)
 				  {
 					  Data[DataCurser] = 8;
 				  }
+				  DataCurser +=1;
 				  break;
 			  case 4:
 				  if(DataCurser < 11)
 				  {
 					  Data[DataCurser] = 9;
 				  }
+				  DataCurser +=1;
 				  break;
 			  case 8:
 				  DataCurser = 0;
@@ -147,18 +150,21 @@ int main(void)
 				  {
 					  Data[DataCurser] = 4;
 				  }
+				  DataCurser +=1;
 				  break;
 			  case 32:
 				  if(DataCurser < 11)
 				  {
 					  Data[DataCurser] = 5;
 				  }
+				  DataCurser +=1;
 				  break;
 			  case 64:
 				  if(DataCurser < 11)
 				  {
 					  Data[DataCurser] = 6;
 				  }
+				  DataCurser +=1;
 				  break;
 			  case 128:
 				  if(DataCurser <= 11 && DataCurser > 0)
@@ -175,24 +181,28 @@ int main(void)
 				  {
 					  Data[DataCurser] = 1;
 				  }
+				  DataCurser +=1;
 				  break;
 			  case 512:
 				  if(DataCurser < 11)
 				  {
 					  Data[DataCurser] = 2;
 				  }
+				  DataCurser +=1;
 				  break;
 			  case 1024:
 				  if(DataCurser < 11)
 				  {
 					  Data[DataCurser] = 3;
 				  }
+				  DataCurser +=1;
 				  break;
 			  case 4096:
 				  if(DataCurser < 11)
 				  {
 					  Data[DataCurser] = 0;
 				  }
+				  DataCurser +=1;
 				  break;
 			  case 32768:
 				  if(Data[0] == 6 && Data[1] == 2 && Data[2] == 3
@@ -204,12 +214,7 @@ int main(void)
 				  }
 				  break;
 			  default:
-				  DataCurser -=1;
 				  break;
-		  }
-		  if(ButtonMatrixState != 8 && ButtonMatrixState != 128 && ButtonMatrixState != 32768)
-		  {
-			  DataCurser +=1;
 		  }
 	    }
 	    StateCheck[1] = StateCheck[0];
