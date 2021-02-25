@@ -382,7 +382,7 @@ uint8_t ButtonMatrixRow = 0;
 
 void ButtonMatrixUpdate()
 {
-	if(HAL_GetTick() - ButtonMatrixTimestamp >= 100)
+	if(HAL_GetTick() - ButtonMatrixTimestamp >= 20)
 	{
 		ButtonMatrixTimestamp = HAL_GetTick();
 		int i;
